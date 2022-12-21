@@ -15,12 +15,12 @@ inline T input() { T tmp; std::cin >> tmp; return tmp; }
 #define fori(i,s,t) for (auto i = (s); i != (t); ++i)
 
 
-// #define FEATURE_BACKTRACK
+#define FEATURE_BACKTRACK
 
 typedef std::bitset<30> Bits;
 
 struct Edge {
-  char direction;
+  char direction;  // for debug - can remove
   int position;
   Edge(char d, int p): direction(d), position(p) {}
 };
@@ -29,12 +29,14 @@ struct Node {
   int last_position;
   int life_point;
   Bits visits;
-  string backtrack;
+  string backtrack; // for debug - can remove
   Node(int pos, int lp, Bits vis, string bt): last_position(pos), life_point(lp), visits(vis), backtrack(bt) {
 #ifndef FEATURE_BACKTRACK
     backtrack = "";
 #endif
   }
+
+  // for debug - can remove
   static std::string format_str(const Node& nd, const int column_count) {
     std::stringstream ss;
     ss << "Node(pos=" << std::setfill(' ') << std::setw(2) << nd.last_position
