@@ -29,7 +29,6 @@ struct Edge {
 Vec shortest_path(int start, const std::vector<std::vector<Edge>>& graph) {
   std::vector<int> result(graph.size(), INT_MAX);
   std::priority_queue<Edge, std::vector<Edge>, std::greater<Edge>> pq;
-
   pq.emplace(start, result[start] = 0);
   while (!pq.empty()) {
     int node = pq.top().node;
