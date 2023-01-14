@@ -1,4 +1,4 @@
-// 776
+// 766
 // https://api.otog.cf/problem/doc/766
 // precompute dijktra across middle point of each graph query
 #include <iostream>
