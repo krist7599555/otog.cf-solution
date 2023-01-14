@@ -68,7 +68,8 @@
         "iomanip": "cpp",
         "__tree": "cpp",
         "numeric": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "map": "cpp"
     },
     "code-runner.clearPreviousOutput": true,
     "code-runner.executorMap": {
