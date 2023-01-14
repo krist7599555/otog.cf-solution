@@ -1,5 +1,7 @@
 {
     "files.associations": {
+        "*.css": "tailwindcss",
+        "*.pcss": "tailwindcss",
         "iostream": "cpp",
         "iosfwd": "cpp",
         "__bit_reference": "cpp",
@@ -63,7 +65,10 @@
         "deque": "cpp",
         "queue": "cpp",
         "utility": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "__tree": "cpp",
+        "numeric": "cpp",
+        "set": "cpp"
     },
     "code-runner.clearPreviousOutput": true,
     "code-runner.executorMap": {
