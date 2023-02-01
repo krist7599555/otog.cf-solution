@@ -69,7 +69,9 @@
         "__tree": "cpp",
         "numeric": "cpp",
         "set": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "ranges": "cpp",
+        "span": "cpp"
     },
     "code-runner.clearPreviousOutput": true,
     "code-runner.executorMap": {
