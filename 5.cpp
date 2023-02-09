@@ -2,21 +2,24 @@
 // https://api.otog.cf/problem/doc/5
 #include <vector>
 #include <iostream>
+#include <cassert>
 
-std::vector<int> factor_of3(int num) {
-  std::vector<int> res;
-  for (; num > 0; num /= 3) {
-    switch (num % 3) {
+enum Scales { left, right, skip };
+
+std::vector<Scales> scales_of(int weight) {
+  std::vector<Scales> res; // res[i] is in multiply of pow(3, i)
+  for (; weight > 0; weight /= 3) {
+    switch (weight % 3) {
     case 0:
-      res.push_back(0);
+      res.push_back(Scales::skip);
       break;
     case 1:
-      res.push_back(1);
-      num -= 1;
+      res.push_back(Scales::right);
+      weight -= 1;
       break;
     case 2:
-      res.push_back(-1);
-      num += 1;
+      res.push_back(Scales::left);
+      weight += 1;
       break;
     }
   }
@@ -24,18 +27,26 @@ std::vector<int> factor_of3(int num) {
 }
 
 int main() {
-  int inp;
-  std::cin >> inp;
-  auto fac = factor_of3(inp);
-  int rem = 0; // remaining
-  for (int i = 0, pow3 = 1; i < fac.size(); ++i, pow3 *= 3) {
-    if (fac[i] == -1) {
-      inp += -fac[i] * pow3; // weight on input side
-    } else if (fac[i] == 1) {
-      // weight on another side
-      rem += fac[i] * pow3;
+  int scales_left;
+  std::cin >> scales_left;
+
+  int scales_right = 0;
+  int count_weighter = 0;
+  int pow3 = 1;
+  for (Scales fac : scales_of(scales_left)) {
+    switch (fac) {
+    case Scales::left:
+      scales_left += pow3;
+      count_weighter += 1;
+      break;
+    case Scales::right:
+      scales_right += pow3;
+      count_weighter += 1;
+      break;
+    case Scales::skip:;
     }
+    pow3 *= 3;
   }
-  assert(rem == inp);
-  std::cout << fac.size() << ' ' << inp << std::endl;
+  assert(scales_right == scales_left);
+  std::cout << count_weighter << ' ' << scales_left << std::endl;
 }
