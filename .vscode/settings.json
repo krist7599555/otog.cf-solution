@@ -71,7 +71,8 @@
         "set": "cpp",
         "map": "cpp",
         "ranges": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "cassert": "cpp"
     },
     "code-runner.clearPreviousOutput": true,
     "code-runner.executorMap": {
