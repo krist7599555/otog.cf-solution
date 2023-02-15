@@ -1,7 +1,9 @@
-// 845
+// 845 TUMSO19_maxtriarea
 // https://api.otog.cf/problem/doc/845
 // convex hull and find max triangle with
 // https://stackoverflow.com/questions/1621364/how-to-find-largest-triangle-in-convex-hull-aside-from-brute-force-search/1621913#1621913
+// https://arxiv.org/abs/1705.11035
+// TODO: try devide and conquer algorithm from paper
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -82,8 +84,8 @@ std::vector<Point<lli>> graham_scan_convexhull(const std::vector<Point<lli>>& _p
     });
   std::sort(all(points), [=](auto& lhs, auto& rhs) {
     auto l = lhs - p0;
-  auto r = rhs - p0;
-  return std::make_tuple(l.polar_angle(), l.length()) > std::make_tuple(r.polar_angle(), r.length());
+    auto r = rhs - p0;
+    return std::make_tuple(l.polar_angle(), l.length()) > std::make_tuple(r.polar_angle(), r.length());
     });
 
   std::vector<Point<lli>> stack = { p0 };
@@ -155,3 +157,16 @@ int main() {
   // assert(abs(20.500 - ans_area) < 1e-5);
   printf("%.3lf\n", ans_area);
 }
+
+/*
+7
+1 5
+2 3
+2 2
+0 1
+2 -4
+5 1
+6 1
+---
+20.500
+*/
