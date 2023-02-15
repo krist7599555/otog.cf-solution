@@ -133,14 +133,24 @@ private:
   }
 };
 
-struct ModuloSystem {
+struct NChooseK {
+  virtual int n_choose_k(int n, int k) const = 0;
+};
+
+#ifdef ADVANCE_SOLUTION
+/*
+  ModularSystem
+  precalculate all value in MOD system
+  can use for compute precalculate Pascal's triangle / Binomial coefficient / N choose K
+*/
+struct ModularSystem: NChooseK {
   // https://vnspoj.github.io/wiki/algebra/module-inverse
   // http://e-maxx.ru/algo/reverse_element (https://e--maxx-ru.translate.goog/algo/reverse_element?_x_tr_sch=http&_x_tr_sl=en&_x_tr_tl=th&_x_tr_hl=en&_x_tr_pto=wapp)
   int mod;
   Vec<lli> inv;
   Vec<lli> fac;
   Vec<lli> ifac;
-  ModuloSystem(int _mod): mod(_mod), inv(mod), fac(mod), ifac(mod) {
+  ModularSystem(int _mod): mod(_mod), inv(mod), fac(mod), ifac(mod) {
     inv[1] = 1;
     fac[0] = fac[1] = ifac[0] = ifac[1] = 1;
     for (int i = 2; i < mod; ++i) {
@@ -155,6 +165,30 @@ struct ModuloSystem {
   }
 };
 
+#else
+
+struct PascalTriangle: NChooseK {
+  int mod;
+  int size;
+  Vec<Vec<int>> pascal;
+  PascalTriangle(int mod, int size): mod(mod), size(size) {
+    pascal.resize(size);
+    rep(n, 0, size) {
+      pascal[n].resize(n + 1, 1);
+      rep(k, std::min(1, n), n) {
+        pascal[n][k] = (pascal[n - 1][k - 1] + pascal[n - 1][k]) % mod;
+      }
+    }
+  }
+  int n_choose_k(int n, int k) const {
+    if (k > n) return 0;
+    if (n > pascal.size()) puts("bad");
+    if (k > pascal[n].size()) puts("bad2");
+    return pascal[n][k] % mod;
+  }
+};
+#endif
+
 int main() {
   int r, c, k;
   std::cin >> r >> c >> k;
@@ -167,7 +201,11 @@ int main() {
     }
   }
   const auto diamon = QuickSumDiamon(r, c, inp);
-  const auto invmod = ModuloSystem(1'000'003);
+#ifdef ADVANCE_SOLUTION
+  const auto combi = ModularSystem(1'000'003); // hardway but cool O(mod)
+#else
+  const auto combi = PascalTriangle(1'000'003, 2 * r + 2 * c); // easy way but fixed solution O(size)
+#endif
 
   int ans = 0;
   rep(i, 0, r) {
@@ -177,7 +215,7 @@ int main() {
         auto area_outer = diamon.area_diamon(i, j, d + 1);
         assert(area_outer >= area_inner);
         int count_star = area_outer - area_inner;
-        ans = (ans + invmod.n_choose_k(count_star, k)) % invmod.mod;
+        ans = (ans + combi.n_choose_k(count_star, k)) % combi.mod;
       }
     }
   }
