@@ -44,17 +44,16 @@ int main() {
   struct Data {
     int ans_i, ans_j, id; // ans[ans_i][ans_j] = id
   };
-  const int starter_id = 0; // can be any from 0 to n * m
+
   std::queue<Data> que;
   Data ans_corner = {
     n, // center row ans
     m, // center col ans
-    0 // starter index can be from 0 to n * m
-  }; // most top-left corner (also the start point)
+    0 // starter_id can be from 0 to n * m
+  }; // ans_corner = most top-left corner (also the start point)
+
   ans[ans_corner.ans_i][ans_corner.ans_j] = ans_corner.id;
   que.push(ans_corner);
-
-  // loop recur
   while (!que.empty()) {
     const Data curr = que.front(); que.pop();
     fprintf(stderr, ">> id=%d) x=%d y=%d\n", curr.id, curr.ans_i, curr.ans_j);
@@ -80,6 +79,7 @@ int main() {
   // print ans
   loop(i, ans_corner.ans_i, ans_corner.ans_i + n) {
     loop(j, ans_corner.ans_j, ans_corner.ans_j + m) {
+      assert(ans[i][j] != INVALID);
       printf("%d ", ans[i][j]);
     }
     printf("\n");
