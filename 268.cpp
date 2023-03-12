@@ -39,10 +39,8 @@ int main() {
     }
   }
 
-
   int ans[2 * n][2 * m]; // double size ans array to store result
   std::fill_n(*ans, 4 * n * m, INVALID);
-
   struct Data {
     int ans_i, ans_j, id; // ans[ans_i][ans_j] = id
   };
